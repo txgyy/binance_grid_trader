@@ -1,29 +1,11 @@
-
-"""
-
-    币安推荐码:  返佣10%
-    https://www.binancezh.pro/cn/register?ref=AIR1GC70
-
-    币安合约推荐码: 返佣10%
-    https://www.binancezh.com/cn/futures/ref/51bitquant
-
-    if you don't have a binance account, you can use the invitation link to register one:
-    https://www.binancezh.com/cn/futures/ref/51bitquant
-
-    or use the inviation code: 51bitquant
-    网格交易: 适合币圈的高波动率的品种，适合现货， 如果交易合约，需要注意防止极端行情爆仓。
-
-
-    服务器购买地址: https://www.ucloud.cn/site/global.html?invitation_code=C1x2EA81CD79B8C#dongjing
-"""
-
-
-import requests
-import time
-import hmac
+# -*- coding:utf-8 -*-
 import hashlib
+import hmac
+import time
 from enum import Enum
 from threading import Lock
+
+import requests
 
 
 class OrderStatus(Enum):
@@ -88,7 +70,7 @@ class BinanceSpotHttp(object):
         self.timeout = timeout
         self.order_count_lock = Lock()
         self.order_count = 1_000_000
-        self.try_counts = try_counts # 失败尝试的次数.
+        self.try_counts = try_counts  # 失败尝试的次数.
         self.proxy_host = proxy_host
         self.proxy_port = proxy_port
 
@@ -117,7 +99,8 @@ class BinanceSpotHttp(object):
 
         for i in range(0, self.try_counts):
             try:
-                response = requests.request(req_method.value, url=url, headers=headers, timeout=self.timeout, proxies=self.proxies)
+                response = requests.request(req_method.value, url=url, headers=headers, timeout=self.timeout,
+                                            proxies=self.proxies)
                 if response.status_code == 200:
                     return response.json()
                 else:
